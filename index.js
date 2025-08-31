@@ -36,11 +36,6 @@ const app = new App({
 // Your existing bot code continues...const { App } = require('@slack/bolt');
 
 // Initialize your app with your bot token and signing secret
-const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  port: process.env.PORT || 3000
-});
 
 // Handle URL verification challenge from Slack
 app.use(async ({ body, next }) => {
