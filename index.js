@@ -7,6 +7,14 @@ const app = new App({
   port: process.env.PORT || 3000
 });
 
+// Handle URL verification challenge from Slack
+app.use(async ({ body, next }) => {
+  if (body && body.challenge) {
+    return body.challenge;
+  }
+  await next();
+});
+
 // Store active meetings in memory
 const activeMeetings = new Map();
 
