@@ -19,7 +19,7 @@ if (originalToken) {
 }
 
 // Use the cleaned token
-const SLACK_BOT_TOKEN = cleanToken;
+const SLACK_BOT_TOKEN = cleanToken; // This will use the cleaned version
 
 console.log('=== END TOKEN DEBUGGING ===');
 
