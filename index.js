@@ -1,4 +1,39 @@
+// Add this temporary debugging code to your bot's main file to diagnose the token issue
+
+const originalToken = process.env.SLACK_BOT_TOKEN;
+
+console.log('=== TOKEN DEBUGGING ===');
+console.log('Raw token length:', originalToken?.length);
+console.log('Token starts with xoxb-:', originalToken?.startsWith('xoxb-'));
+console.log('Token has whitespace at start:', originalToken?.charAt(0) !== originalToken?.trim().charAt(0));
+console.log('Token has whitespace at end:', originalToken?.charAt(originalToken.length - 1) !== originalToken?.trim().charAt(-1));
+
+// Check for invisible characters
+const cleanToken = originalToken?.replace(/[\r\n\t\s]/g, '');
+console.log('Original vs clean length:', originalToken?.length, 'vs', cleanToken?.length);
+
+// Log first and last few characters (safely)
+if (originalToken) {
+    console.log('First 10 chars:', JSON.stringify(originalToken.substring(0, 10)));
+    console.log('Last 5 chars:', JSON.stringify(originalToken.substring(originalToken.length - 5)));
+}
+
+// Use the cleaned token
+const SLACK_BOT_TOKEN = cleanToken;
+
+console.log('=== END TOKEN DEBUGGING ===');
+
+// Your existing bot initialization code goes here
 const { App } = require('@slack/bolt');
+
+const app = new App({
+  token: SLACK_BOT_TOKEN, // Use the cleaned token
+  signingSecret: process.env.SLACK_SIGNING_SECRET?.trim(), // Also trim signing secret
+  socketMode: false, // HTTP mode as you mentioned
+  port: process.env.PORT || 3000
+});
+
+// Your existing bot code continues...const { App } = require('@slack/bolt');
 
 // Initialize your app with your bot token and signing secret
 const app = new App({
